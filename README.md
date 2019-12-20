@@ -1,7 +1,6 @@
-# OHAI
-This tool is useful for making memes, or in my case, turning still images into a great source for datamoshing.
-![img3](https://i.imgur.com/dzcncwD.png)
+# This tool is useful for making memes, or in my case, turning still images into a great source for datamoshing.
 
+![img3](https://i.imgur.com/dzcncwD.png)
 
 # Requirements
 Get FFmpeg & FFplay from: https://ffmpeg.zeranoe.com/builds/win32/static/ffmpeg-latest-win32-static.zip                          
