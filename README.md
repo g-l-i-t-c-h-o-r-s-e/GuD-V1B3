@@ -31,12 +31,12 @@ Custom Mask:
 Original:                             
 ![img2](https://i.imgur.com/unRcJyr.png)
 
-Final GIF: not the best exmaple but I think you get the point, damn she look cold tho.
+Final GIF: not the best example but I think you get the point, damn she look cold tho.
 ![img2](https://i.imgur.com/P1MRCCZ.gif)
 
 
 # Datamoshing?
-oh, yeah can also use the AVI option (and loop forever if u need) to turn the gif into an AVI that you can use as a source.             
+oh, yeah you can also use the AVI option (and loop forever if u need) to turn the gif into an AVI that you can use as a source.             
 This is the type of results you can get:
 ![img2](https://i.imgur.com/2ILgk4k.jpg)                                                                
 Or These:                                                                                                               
