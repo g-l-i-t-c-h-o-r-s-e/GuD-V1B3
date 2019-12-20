@@ -1,5 +1,6 @@
 # OHAI
 This tool is useful for making memes, or in my case, turning still images into a great source for datamoshing.
+![img3](https://i.imgur.com/dzcncwD.png)
 
 
 # Requirements
@@ -19,5 +20,5 @@ FFplay :=
 ![img1](https://i.imgur.com/hVcyxxL.gif)
 Just a regular image vibrated, with 3 frames.
 
-![img1](https://i.imgur.com/PNE84w7.gif)
+![img2](https://i.imgur.com/PNE84w7.gif)
 As you can see, transparency is also supported.
