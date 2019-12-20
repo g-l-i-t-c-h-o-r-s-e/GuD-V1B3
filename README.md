@@ -3,6 +3,7 @@ This tool is useful for making memes, or in my case, turning still images into a
 ![img3](https://i.imgur.com/dzcncwD.png)
 
 # Requirements:
+[AutoHotkey](https://www.autohotkey.com/download/ahk-install.exe)                                       
 Get FFmpeg & FFplay from: https://ffmpeg.zeranoe.com/builds/win32/static/ffmpeg-latest-win32-static.zip                          
 Get ImageMagick from somwhere like:                                                                   
 ftp://ftp.imagemagick.org/pub/ImageMagick/binaries/ImageMagick-7.0.9-8-portable-Q16-x86.zip
