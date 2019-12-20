@@ -21,7 +21,8 @@ FFplay :=
 Just a regular image vibrated, with 3 frames.
 
 ![img2](https://i.imgur.com/PNE84w7.gif)
-As you can see, transparency is also supported.
+As you can see, transparency is also supported.                                                                          
+Use the IM button if you want to make an ImageMagick GIF (without dithering).
 
 # Masks:
 You can use a custom mask to define which area you want to vibrate, instead of the entire image.                                          
