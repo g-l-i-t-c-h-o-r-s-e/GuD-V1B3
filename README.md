@@ -31,7 +31,7 @@ Custom Mask:
 Original:                             
 ![img2](https://i.imgur.com/unRcJyr.png)
 
-Final GIF, not the best exmaple but I think you get the point.
+Final GIF: not the best exmaple but I think you get the point.
 ![img2](https://i.imgur.com/P1MRCCZ.gif)
 
 
