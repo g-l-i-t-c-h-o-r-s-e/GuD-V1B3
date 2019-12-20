@@ -14,3 +14,10 @@ IM :=
 FFmpeg :=
 FFplay :=
 ```
+
+# Examples:
+![img1](https://i.imgur.com/hVcyxxL.gif)
+Just a regular image vibrated, with 3 frames.
+
+![img1](https://i.imgur.com/PNE84w7.gif)
+As you can see, transparency is also supported.
