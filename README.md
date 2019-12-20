@@ -1,4 +1,4 @@
-# This tool is useful for making memes, or in my case, turning still images into a great source for datamoshing.
+This tool is useful for making memes, or in my case, turning still images into a great source for datamoshing.
 
 ![img3](https://i.imgur.com/dzcncwD.png)
 
