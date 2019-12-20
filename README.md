@@ -42,5 +42,8 @@ This is the type of results you can get:
 Or These:                                                                                                               
 https://streamable.com/t4vwe                                                                                             
 https://streamable.com/nlr6b                                                                             
-https://streamable.com/eu98v
+https://streamable.com/eu98v                                
+
+You can find out more about Datamoshing: [here](http://glitchet.com/resources)                                                                                  
+My favorite script to Datamosh with is: [here](https://github.com/itsKaspar/tomato)
 
