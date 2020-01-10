@@ -24,7 +24,7 @@ Just a regular image vibrated, with 3 frames.
 As you can see, transparency is also supported.                                                                          
 Use the IM button if you want to make an ImageMagick GIF (without dithering).
 
-Oh and I just added random mode now, so you can either make it use random values and still use a radial (or circle) pattern, or use the radio buttons on the Random Menu to set it to `Truly Random Mode`.
+Oh and I just added random mode now, so you can either make it use random values in between a given set of numbers and still use a radial (or circle) pattern, or use the radio buttons on the Random Menu to set it to `Truly Random Mode`.
 ![img2](https://i.imgur.com/lrgPzfG.gif)
 
 
