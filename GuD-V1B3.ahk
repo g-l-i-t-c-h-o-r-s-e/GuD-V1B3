@@ -8,10 +8,11 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 ;Get ImageMagick from somwhere like: ftp://ftp.imagemagick.org/pub/ImageMagick/binaries/ImageMagick-7.0.9-8-portable-Q16-x86.zip
 ;KTHXBYE
 
-IM := "C:\Users\aches\Downloads\ImageMagick-7.0.9-8-portable-Q16-x86\convert.exe"
-FFmpeg := "C:\Users\aches\Documents\AHKSCRIPTS\Datamosh-Den\ffmpeg.exe"
-FFplay := "C:\Users\aches\Documents\AHKSCRIPTS\Datamosh-Den\ffplay.exe"
+IM := "C:\Users\Username\Downloads\ImageMagick-7.0.9-8-portable-Q16-x86\convert.exe"
+FFmpeg := "C:\Users\Username\Documents\AHKSCRIPTS\Datamosh-Den\ffmpeg.exe"
+FFplay := "C:\Users\Username\Documents\AHKSCRIPTS\Datamosh-Den\ffplay.exe"
 WhichOne := "CommenceShakening"
+TrulyRandom := 0
 
 
 Gui, Color, DDCEE9
@@ -24,9 +25,11 @@ Gui Add, Text, x24 y59 w52 h14, Spread - X
 Gui Add, Text, x116 y59 w56 h14, Spread - Y
 Gui Add, Edit, x24 y73 w50 h21 vSpreadX +Center, 3
 Gui Add, Edit, x116 y73 w50 h21 vSpreadY +Center, 3
-Gui, Add, Button,x119 y108 w50 h24 gLoopIt, Shake it!
+Gui, Add, Button,x119 y108 w50 h24 gPreShake, Shake it!
 Gui Add, Button, x119 y132 w50 h24 gPreMask, Masked!
-Gui Show, w200 h162, % "                 GuD-V1B3 - v1.6"
+Gui Add, Button, x169 y108 w20 h24 gActivateNormalRandom, R&&
+Gui Add, Button, x169 y132 w20 h24 gActivateMaskedRandom, R&&
+Gui Show, w200 h162, % "                 GuD V1B3 - v1.7"
 Gui, -sysmenu
 Return
 
@@ -37,15 +40,69 @@ sleep, 10
 InputFile := chr(0x22) . InputFile . chr(0x22)
 Return
 
-PreShake:
-if (InputFile = "") {
-	msgbox, select an input file yo
+RemoveFiles:
+FileRemoveDir, %FrameDir%, 1
+sleep, 50
+FrameDir := A_ScriptDir . "\FRAMES"
+FileCreateDir, %FrameDir%
+sleep, 10
+Return
+
+ActivateMaskedRandom:
+Gui, Submit, NoHide ;Needed
+
+gosub, RemoveFiles
+
+msgbox % "Random Masked Mode!"
+RandVar := 1
+gosub, RandomMenu
+Return
+
+ActivateNormalRandom:
+Gui, Submit, NoHide ;Needed
+
+gosub, RemoveFiles
+
+msgbox % "Random Mode!"
+RandVar := 2
+gosub, RandomMenu
+Return
+
+RandomMenu:
+Gui Random:Font, s12
+Gui Random:Add, Edit, x30 y34 w37 h31 vLeastRandomVal, 1
+Gui Random:Font
+Gui Random:Font, s12
+Gui Random:Add, Edit, x88 y34 w37 h31 vGreatestRandomVal, 15
+Gui Random:Font
+Gui Random:Font, s11
+Gui Random:Add, Text, x1 y5 w153 h23 +0x200, Select Numbers Between:
+Gui Random:Font
+Gui Random:Font, s12
+Gui Random:Add, Text, x71 y38 w14 h23 +0x200, &&
+Gui Random:Font
+Gui Random:Add, Button, x37 y72 w80 h23 gCloseRandomMenu, Apply
+Gui Random:Add, Radio, x135 y78 w13 h13 gEnableTrulyRandomMode, Radio Button
+Gui Random:Add, Radio, x8 y78 w13 h13 +Checked gEnableRadialMode, Radio Button
+Gui Random:Show, w157 h101, Random Menu
+Return
+
+CloseRandomMenu:
+Gui, Random:Submit, NoHide
+Gui, Random:Destroy
+
+if (RandVar = 1) {
+	gosub, PreMask
 	Return
 }
 
-WhichOne := "CommenceShakening"
-goto, LoopIt
+if (RandVar = 2) {
+	gosub, PreShake
+	Return
+}
 Return
+
+
 
 PreMask:
 if (InputFile = "") {
@@ -53,25 +110,44 @@ if (InputFile = "") {
 	Return
 }
 
+gosub, RemoveFiles
 WhichOne := "CommenceMaskedShakening"
+
+if (RandVar = 1) {
+	WhichOne := "CommenceRandomMaskedShakening"
+}
+
 FileSelectFile, InputFileMask,,,Select The Image Mask......................................
 sleep, 10
 InputFileMask := chr(0x22) . InputFileMask . chr(0x22)
+RandVar := 0 ;Clear Random Var.
+goto, LoopIt
+Return
+
+
+PreShake:
+if (InputFile = "") {
+	msgbox, select an input file yo
+	Return
+}
+
+gosub, RemoveFiles
+WhichOne := "CommenceShakening"
+
+if (RandVar = 2) {
+	WhichOne := "CommenceRandomShakening"
+}
+
 goto, LoopIt
 Return
 
 
 
 LoopIt:
-
 gosub, CloseGifMenu
 Gui, Submit, NoHide
 
-FileRemoveDir, %FrameDir%, 1
-sleep, 10
-FrameDir := A_ScriptDir . "\FRAMES"
-FileCreateDir, %FrameDir%
-sleep, 10
+gosub, RemoveFiles
 ViewAll := ComSpec . " /c " . " ffplay -i " . FrameDir . "\frame_%04d.png -loop 0"
 
 
@@ -124,6 +200,90 @@ IMCommand := ComSpec . " /c " . IM . " -verbose " . InputFile . " " . ShakeComma
 runwait, %IMCommand%
 Return
 
+EnableTrulyRandomMode:
+msgbox, Activated Truly Random Mode!
+TrulyRandom := 1
+Return
+
+EnableRadialMode:
+msgbox, Activated Radial Random Mode!
+TrulyRandom := 0
+Return
+
+CommenceRandomShakening:
+Gui, Submit, NoHide
+;msgbox, wao
+k += 1
+m := Mod(k, 4)
+s := Floor(m) 
+
+if (TrulyRandom = 1) {
+	
+	;Randomize the offset characters being used!
+	Values := ["+","-","+","-"]
+	Random, RandomVal1, 1, 4
+	Random, RandomVal2, 1, 4
+	Random, RandomVal3, 1, 4
+	Random, RandomVal4, 1, 4
+	Random, RandomVal5, 1, 4
+	Random, RandomVal6, 1, 4
+	Random, RandomVal7, 1, 4
+	Random, RandomVal8, 1, 4
+	
+	;Assign them to readable Values :b
+	Offset1 :=  Values[RandomVal1]
+	Offset2 :=  Values[RandomVal2]
+	Offset3 :=  Values[RandomVal3]
+	Offset4 :=  Values[RandomVal4]
+	Offset5 :=  Values[RandomVal5]
+	Offset6 :=  Values[RandomVal6]
+	Offset7 :=  Values[RandomVal7]
+	Offset8 :=  Values[RandomVal8]
+	
+	
+	Random, SpreadXRand, %LeastRandomVal%,%GreatestRandomVal%
+	Random, SpreadYRand, %LeastRandomVal%,%GreatestRandomVal%
+	
+     ;This is where the shake magic happens.
+	sleep, 10
+	cus_presets := [Offset1 . SpreadXRand . Offset2 . SpreadYRand
+                , Offset3 . SpreadXRand . Offset4 . SpreadYRand
+                , Offset5 . SpreadXRand . Offset6 . SpreadYRand
+			 , Offset7 . SpreadXRand . Offset8 . SpreadYRand]
+	
+	CustomPreset := cus_presets[s+1]
+	
+}
+
+if (TrulyRandom = 0) {
+	
+	Offset1 := "+"
+	Offset2 := "-"	
+	
+	Random, SpreadXRand, %LeastRandomVal%,%GreatestRandomVal%
+	Random, SpreadYRand, %LeastRandomVal%,%GreatestRandomVal%
+	
+     ;This is where the shake magic happens.
+	sleep, 10
+	cus_presets := [Offset1 . SpreadXRand . Offset1 . SpreadYRand
+                , Offset1 . SpreadXRand . Offset2 . SpreadYRand
+                , Offset2 . SpreadXRand . Offset2 . SpreadYRand
+			 , Offset2 . SpreadXRand . Offset1 . SpreadYRand]
+	
+	CustomPreset := cus_presets[s+1]
+}
+
+
+ShakeCommand := " -page " . CustomPreset .  " -background " . BackgroundColor . " -flatten "
+IMCommand := ComSpec . " /c " . IM . " -verbose " . InputFile . " " . ShakeCommand . " " . FrameDir . "\frame_" . zeropad ".png"
+
+SpreadX := GreatestRandomVal ;Used for Cropping.
+SpreadY := GreatestRandomVal ;Used for Cropping.
+
+runwait, %IMCommand%
+Return
+
+
 
 CommenceMaskedShakening:
 Gui, Submit, NoHide
@@ -141,6 +301,82 @@ CustomPreset := cus_presets[s+1]
 
 ShakeCommand := " -page " . CustomPreset .  " -background Transparent -flatten "
 IMCommand :=  ComSpec . " /c " . IM . " -verbose " . InputFile . " -mask " InputFileMask " -write mpr:temp1 ( mpr:temp1 " . ShakeCommand . " -write mpr:temp2 ) -composite " . FrameDir . "\frame_" . zeropad ".png"
+
+runwait, %IMCommand%
+Return
+
+CommenceRandomMaskedShakening:
+Gui, Submit, NoHide
+k += 1
+m := Mod(k, 4)
+s := Floor(m)
+
+Random, SpreadXRand, %LeastRandomVal%,%GreatestRandomVal%
+Random, SpreadYRand, %LeastRandomVal%,%GreatestRandomVal%
+
+;This is where the shake magic happens.
+sleep, 10
+if (TrulyRandom = 1) {
+	
+	;Randomize the offset characters being used!
+	Values := ["+","-","+","-"]
+	Random, RandomVal1, 1, 4
+	Random, RandomVal2, 1, 4
+	Random, RandomVal3, 1, 4
+	Random, RandomVal4, 1, 4
+	Random, RandomVal5, 1, 4
+	Random, RandomVal6, 1, 4
+	Random, RandomVal7, 1, 4
+	Random, RandomVal8, 1, 4
+	
+	;Assign them to readable Values :b
+	Offset1 :=  Values[RandomVal1]
+	Offset2 :=  Values[RandomVal2]
+	Offset3 :=  Values[RandomVal3]
+	Offset4 :=  Values[RandomVal4]
+	Offset5 :=  Values[RandomVal5]
+	Offset6 :=  Values[RandomVal6]
+	Offset7 :=  Values[RandomVal7]
+	Offset8 :=  Values[RandomVal8]
+	
+	
+	Random, SpreadXRand, %LeastRandomVal%,%GreatestRandomVal%
+	Random, SpreadYRand, %LeastRandomVal%,%GreatestRandomVal%
+	
+     ;This is where the shake magic happens.
+	sleep, 10
+	cus_presets := [Offset1 . SpreadXRand . Offset2 . SpreadYRand
+                , Offset3 . SpreadXRand . Offset4 . SpreadYRand
+                , Offset5 . SpreadXRand . Offset6 . SpreadYRand
+			 , Offset7 . SpreadXRand . Offset8 . SpreadYRand]
+	
+	CustomPreset := cus_presets[s+1]
+	
+}
+
+if (TrulyRandom = 0) {
+	
+	Offset1 := "+"
+	Offset2 := "-"	
+	
+	Random, SpreadXRand, %LeastRandomVal%,%GreatestRandomVal%
+	Random, SpreadYRand, %LeastRandomVal%,%GreatestRandomVal%
+	
+     ;This is where the shake magic happens.
+	sleep, 10
+	cus_presets := [Offset1 . SpreadXRand . Offset1 . SpreadYRand
+                , Offset1 . SpreadXRand . Offset2 . SpreadYRand
+                , Offset2 . SpreadXRand . Offset2 . SpreadYRand
+			 , Offset2 . SpreadXRand . Offset1 . SpreadYRand]
+	
+	CustomPreset := cus_presets[s+1]
+}
+
+ShakeCommand := " -page " . CustomPreset .  " -background Transparent -flatten "
+IMCommand :=  ComSpec . " /c " . IM . " -verbose " . InputFile . " -mask " InputFileMask " -write mpr:temp1 ( mpr:temp1 " . ShakeCommand . " -write mpr:temp2 ) -composite " . FrameDir . "\frame_" . zeropad ".png"
+
+SpreadX := GreatestRandomVal ;Used for Cropping.
+SpreadY := GreatestRandomVal ;Used for Cropping.
 
 runwait, %IMCommand%
 Return
@@ -236,9 +472,11 @@ Gui Gif2:Submit, NoHide
 ;	LoopForever := ""
 ;}
 
+;msgbox % SpreadX " " SpreadXRand "`n" SpreadY " " SpreadYRand
+
 ;Trims empty edges, +repage needed to fill in transparent spaces/edges.
-ShaveX := (SpreadX * 2 + 1)
-ShaveY := (SpreadY * 2 + 1)
+ShaveX := (SpreadX * 2 + 2)
+ShaveY := (SpreadY * 2 + 2)
 ShaveAmount := " +repage -shave " . ShaveX . " " ShaveY
 
 IMCommand := ComSpec . " /c " . IM . " " . LoopForever . " -verbose -delay " . DelayAmount . " -dispose previous " . FrameDir . "\frame_*.png -channel rgba -alpha on -loop 0 " . ShaveAmount . " " . FrameDir . "\output.gif"
