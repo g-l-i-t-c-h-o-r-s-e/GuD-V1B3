@@ -1,6 +1,6 @@
 This tool is useful for making memes, or in my case, turning still images into a great source for datamoshing.
 
-![img3](https://i.imgur.com/dzcncwD.png)
+![img3](https://i.imgur.com/FNtYtUo.png)
 
 # Requirements:
 [AutoHotkey](https://www.autohotkey.com/download/ahk-install.exe)                                       
